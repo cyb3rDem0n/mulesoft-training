@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:validation="http://www.mulesoft.org/schema/mule/validation" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="0a9a571d-67a0-44a1-add6-74945dcc19ee" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="training-projectFlow" doc:id="950effb8-14d8-420b-a001-ce96ab6b6a14" >
+		<http:listener doc:name="Listener" doc:id="04abdc83-d774-46dc-b829-77b7239ae0a9" config-ref="HTTP_Listener_config" path="/questiontwo"/>
+		<set-payload value="#['start']" doc:name="start" doc:id="c32d0f08-7d42-4c6d-824a-9685dce731e0" />
+		<validation:is-blank-string doc:id="973fd7f1-b47c-4fa9-a0dc-fb643154c61f" value="#[payload]"/>
+		<set-payload value="#['end']" doc:name="end" doc:id="e0e3f46e-02b2-4f91-8700-2436508a940c" />
+	</flow>
+</mule>
