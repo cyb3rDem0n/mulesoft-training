@@ -1,0 +1,7 @@
+db:
+  postgres:
+    host: "jdbc:postgresql://localhost:5432/MULE_TRAINING"
+    port: "5432"
+    user: "postgres"
+    password: "toor"
+    database: "postgres"  

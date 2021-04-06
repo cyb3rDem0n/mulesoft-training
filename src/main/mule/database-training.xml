@@ -1,5 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd"></mule>
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="database-trainingFlow" doc:id="0f11b361-f806-4dc5-8fcc-0d69707c7165" >
+		<http:listener doc:name="Listener" doc:id="20c3da2a-9a29-44df-9e5b-f037454985c9" config-ref="HTTP_Listener_config" path="/questionDB" allowedMethods="GET"/>
+		<db:select doc:name="Select" doc:id="e766a0ab-924b-4b32-9a09-76bca20dbe0e" config-ref="Postgres_Config">
+			<db:sql ><![CDATA[SELECT id, username, user_status FROM public."CUSTOMER";]]></db:sql>
+		</db:select>
+		<ee:transform doc:name="Transform Message" doc:id="c68c6efb-6847-484d-a8d6-c2728c7f95c1" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
