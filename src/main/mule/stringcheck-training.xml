@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:validation="http://www.mulesoft.org/schema/mule/validation" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd">
+	<flow name="stringcheck-trainingFlow" doc:id="2a51ff20-890c-4366-b12a-c8c2a3ee2bf5" >
+		<http:listener doc:name="Listener" doc:id="f48ca3e6-5de2-419a-8007-061a4629ca44" config-ref="HTTP_Listener_config" path="/checkme"/>
+		<set-payload value='#["START"]' doc:name="START" doc:id="04c06c23-e7ba-4e0d-a1dc-464679abdf8d" />
+		<validation:is-blank-string doc:name="Is blank string" doc:id="58da6b61-4125-468b-8bd2-be48a65819c6" value="#[payload]"/>
+		<set-payload value='#["END"]' doc:name="END" doc:id="cdbc424f-4c87-4f68-a64b-1791c9659c87" />
+	</flow>
+</mule>

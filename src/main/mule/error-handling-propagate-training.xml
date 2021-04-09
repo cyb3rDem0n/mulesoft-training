@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:validation="http://www.mulesoft.org/schema/mule/validation"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd 
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+	<flow name="error-handling-propagate-trainingFlow" doc:id="7fcda191-fe82-4cc0-a9a7-60b6f64bbf7c" >
+		<http:listener doc:name="GET" doc:id="0cfd27ee-a28b-4cfe-9078-02244d34262e" config-ref="HTTP_Listener_config" path="/testpropagate"/>
+		<set-payload value='#["SUCCESS - START MAIN FLOW"]' doc:name="SUCCESS START" doc:id="4f36d23d-b42a-45b5-bce9-42dcb03de8d6" />
+		<validation:is-number numberType="INTEGER" doc:name="INTEGER PAYLOAD" doc:id="799aa912-8db3-43ea-8771-c6fa995d7213" value="#[payload]" message="Validate - Payload is an Integer"/>
+		<set-payload value='#["SUCCESS - END MAIN FLOW"]' doc:name="SUCCESS END" doc:id="86c0169f-b7da-4ef9-b0e1-e677c7481b01" />
+		<error-handler >
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="0a2cc050-bb7b-4cfe-817e-f83df028c3e6" >
+				<set-payload value='#["ERROR - MAIN FLOW"]' doc:name="ERROR" doc:id="8a525890-a793-4371-bf4b-c6d04979e9f3" />
+			</on-error-propagate>
+		
+</error-handler>
+	</flow></mule>
+
+	

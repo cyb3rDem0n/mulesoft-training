@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:validation="http://www.mulesoft.org/schema/mule/validation" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd">
+	<flow name="error-handling-trycatch-trainingFlow" doc:id="c225dd9d-f07f-4212-afbb-6d3d7bab580e" >
+		<http:listener doc:name="Listener" doc:id="d183ad9f-9727-4e32-948f-2bdb2853cc92" config-ref="HTTP_Listener_config" path="/tryme" allowedMethods="POST"/>
+		<try doc:name="Try" doc:id="5acae4d5-413a-44a4-89c0-17b83fd65e36" >
+			<validation:is-null doc:name="Is null" doc:id="1d0b4773-67d2-4fe7-a3ee-e0e41ae8e136" value="#[payload]" message="Validation Error"/>
+			<error-handler >
+				<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="b0a4952b-b22b-49fa-a1ab-1e2b93e034f9" >
+					<set-payload value='#["Error Try Scope"]' doc:name="Error Try Scope" doc:id="a5c85963-5fa6-40e7-b0bd-d9ecc827d670" />
+				</on-error-propagate>
+			</error-handler>
+		</try>
+		<set-payload value='#["SUCCESS MAIN FLOW"]' doc:name="SUCCESS MAIN FLOW" doc:id="355a05c6-3d36-4023-a12f-d518d93f37b3" />
+		<error-handler >
+			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="833b0643-982c-4357-bf17-ebb752c957f4" >
+				<set-payload value='#["Error - Main Flow"]' doc:name="Error - Main Flow" doc:id="d344e340-6dce-4d14-a7c8-bb50ca8dc5e5" />
+			</on-error-continue>
+		</error-handler>
+	</flow>
+	<flow name="error-handling-trycatch2-trainingFlow" doc:id="894e4393-f797-42db-8049-6990541717da" >
+		
+		<http:listener doc:name="Listener" doc:id="40154093-014a-4a76-925d-1af5a3714e50" config-ref="HTTP_Listener_config" path="/tryme2" allowedMethods="POST" />
+		<set-payload value='#["SUCCESS MAIN FLOW"]' doc:name="SUCCESS MAIN FLOW" doc:id="c6ee08c2-c0d8-4a73-9bcd-3ab7214a403c" />
+		<try doc:name="Try" doc:id="c2c24e1d-b8af-46f6-853d-bbbb81db2306" >
+			<validation:is-null doc:name="Is null" doc:id="7c8e31c3-2854-488b-b70d-0485518eb50f" value="#[payload]" message="Validation Error" />
+			<error-handler >
+				<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="e4a1155d-cb61-48b6-bd75-9ff88379e25d" >
+					<set-payload value='#["Error Try Scope"]' doc:name="Error Try Scope" doc:id="b29e767e-6160-4d73-8e43-f7ec974350a6" />
+				</on-error-continue>
+			</error-handler>
+		</try>
+		<set-payload value='#["SUCCESS MAIN FLOW"]' doc:name="SUCCESS MAIN FLOW" doc:id="d5423332-52f8-4c48-a8fe-d75a73244cbd" />
+	</flow>
+</mule>

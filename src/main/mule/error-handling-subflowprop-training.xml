@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns:validation="http://www.mulesoft.org/schema/mule/validation" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd">
+	<error-handler name="globalError_Handler" doc:id="ce8044bf-8df1-4fb9-a4b3-d0602fecaede" >
+		<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="4fead73b-c426-42f2-af40-e5f0012f1197" >
+			<set-payload value='#["GLOBAL ERROR HANDLER"]' doc:name="GLOBAL ERROR HANDLER" doc:id="42764539-7732-45b6-b7af-7d0ac5c2f496" />
+		</on-error-continue>
+	</error-handler>
+	<flow name="flow_test1" doc:id="40e934b3-b9e4-4ab3-9f59-63daee1e61bf" >
+		<http:listener doc:name="GET" doc:id="51a7cdb4-ee54-460f-892d-4b90aad475bf" config-ref="HTTP_Listener_config" path="/subflow1"/>
+		<flow-ref doc:name="private" doc:id="af4ca7f3-3a9d-4901-b9d2-d1adb008a34d" name="private_1"/>
+		<set-payload value='#["SUCCESS - MAIN FLOW"]' doc:name="SUCCESS MAINFLOW" doc:id="98244fd3-3b4f-438f-934a-9a82f5f7026d" />
+	</flow>
+	<flow name="private_1" doc:id="adcbef67-4098-4e4e-b950-2ba30164ba11" >
+		<validation:is-number numberType="INTEGER" doc:name="INTEGER PAYLOAD" doc:id="bc412638-8491-4130-9d8e-9284668bfad7" value="#[payload]" message="Validate - Payload is an Integer"/>
+		<error-handler >
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="7976fa3b-5532-4a39-a77f-e9c4fa1bb814" >
+				<set-payload value='#["ERROR - PRIVATE FLOW"]' doc:name="ERROR PRIVATE FLOW" doc:id="2a0c604f-5fd2-44a5-b516-65e326cd3112" />
+			</on-error-propagate>
+		</error-handler>
+	</flow>
+	<flow name="flows_test2" doc:id="502277dc-d7c8-468e-9637-f3b006ee2a33" >
+		<http:listener doc:name="GET" doc:id="0c446d5c-0371-4512-a9f5-45dfde6a4487" config-ref="HTTP_Listener_config" path="/subflow2" />
+		<flow-ref doc:name="private" doc:id="34cc0d2c-b3d4-48ad-a7f8-2e4524595736" name="private2" />
+		<set-payload value='#["SUCCESS - MAIN FLOW"]' doc:name="SUCCESS MAINFLOW" doc:id="1dd48a3f-9f7a-4db9-bfb6-3133fa375b7f" />
+		<error-handler >
+			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="a203ec8c-5902-4337-9af4-87a2b4fc7d99" >
+				<set-payload value='#["ERROR - main flow"]' doc:name="ERROR - main flow" doc:id="318f002b-3eee-4d17-8637-4aafb0a0acce" />
+			</on-error-continue>
+		</error-handler>
+	</flow>
+	<flow name="private2" doc:id="e27fd6a3-ff4c-4b11-b8d8-3e12732008b0" >
+		<validation:is-number numberType="INTEGER" doc:name="INTEGER PAYLOAD" doc:id="6364d91f-715c-4ab7-9e78-0b78949b668d" value="#[payload]" message="Validate - Payload is an Integer" />
+		<error-handler>
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="341af1de-1306-408b-8e6d-dab399790eef">
+				<set-payload value='#["ERROR - PRIVATE FLOW"]' doc:name="ERROR - PRIVATE FLOW" doc:id="d7b7967c-8350-44d8-868f-b18aac84510a" />
+			</on-error-propagate>
+		</error-handler>
+	</flow>
+</mule>

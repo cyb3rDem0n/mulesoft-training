@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<flow name="logcheck-trainingFlow" doc:id="d3a5ff35-8b98-4134-a998-20822c462c23" >
+		<http:listener doc:name="Listener" doc:id="f149d469-d9f9-416a-8904-e09c63e3a1d4" config-ref="HTTP_Listener_config" path="/logme" allowedMethods="GET"/>
+		<set-payload value="#[[1,2,3,4]]" doc:name="Array of Iint" doc:id="740e0a0a-d9a2-491d-aeb4-02e516fdca4d" />
+		<foreach doc:name="For Each" doc:id="b89c7a11-ce7b-4175-b683-d18afb19705f" collection="#[payload]">
+			<set-payload value='#["order" ++ payload]' doc:name="Set Payload" doc:id="21533603-0222-45d3-bda0-4b90e1e15c7c" />
+		</foreach>
+		<logger level="INFO" doc:name="Logger" doc:id="9b1f1237-d5ba-40fe-b248-d392d22f9942" message="#[%dw 2.0&#10;output application/json&#10;---&#10;payload]"/>
+	</flow>
+</mule>

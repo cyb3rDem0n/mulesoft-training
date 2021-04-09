@@ -4,11 +4,13 @@
 	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd">
-	<configuration-properties doc:name="Configuration properties" doc:id="86816709-f622-4aa5-b7f2-d5cc61852383" file="config-${env}.yaml" />
-	<global-property doc:name="Global Property" doc:id="46e04d89-b89b-4cf6-866d-425d72ccdb11" name="env" value="local" />
-	<global-property doc:name="Global Property" doc:id="49f2284f-b9b3-47e2-8be0-1392acd1e217" name="basePath" value="/training" />
-	<global-property doc:name="Global Property" doc:id="2443329f-f7cc-43c3-b052-87e084db7073" name="httPort" value="8081" />
-	<db:config name="Postgres_Config" doc:name="Database Config" doc:id="6d633b12-af23-4921-aede-54024eff4274" >
+	<configuration-properties doc:name="Configuration properties" doc:id="d3db4664-65f1-4259-99d2-62df7141b830" file="config-${env}.yaml" />
+	<global-property doc:name="Global Property" doc:id="7856f90b-8466-4a68-9dc6-0c7ae34115e7" name="env" value="local" />
+	<global-property doc:name="Global Property" doc:id="d081d73e-0591-46fb-992f-a31671a0fc49" name="basePath" value="/training" />
+	<global-property doc:name="Global Property" doc:id="2e7d2460-dcfa-4beb-b701-c5f6ec3a73e9" name="httPort" value="8081" />
+	<db:config name="Postgres_Config" doc:name="Database Config" doc:id="1a7cc2fd-debb-44a2-9852-fe6ea62ebea3" >
 		<db:generic-connection url="${db.postgres.host}" driverClassName="org.postgresql.Driver" user="${db.postgres.user}" password="${db.postgres.password}" />
 	</db:config>
+	<configuration doc:name="Configuration" doc:id="0121be92-0dd6-4f64-bc02-14155f72d789" defaultErrorHandler-ref="globalError_Handler" />
+	
 </mule>

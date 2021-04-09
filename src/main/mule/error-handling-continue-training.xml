@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:validation="http://www.mulesoft.org/schema/mule/validation"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd 
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+	<flow name="error-handling-continue-trainingFlow" doc:id="c217d1ea-88eb-42e4-9e0a-726558e8dd98" >
+		<http:listener doc:name="GET" doc:id="d8a92884-44b7-4de1-9e26-8d9d8960595d" config-ref="HTTP_Listener_config" path="/testcontinue"/>
+		<set-payload value='#["SUCCESS - START MAIN FLOW"]' doc:name="SUCCESS START" doc:id="f826023c-fd79-4004-8d9e-0a53bf15ddc5" />
+		<validation:is-number numberType="INTEGER" doc:name="INTEGER PAYLOAD" doc:id="6ecb0389-9a14-43f2-9a21-bb8dfc563768" value="#[payload]" message="Validate - Payload is an Integer"/>
+		<set-payload value='#["SUCCESS - END MAIN FLOW"]' doc:name="SUCCESS END" doc:id="dd6154b0-a278-42a3-a435-626688df16e3" />
+		<error-handler >
+			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="f2d50cf9-95ab-41a4-8f11-1efe4d6c16e1">
+				<set-payload value='#["ERROR - MAIN FLOW"]' doc:name="ERROR" doc:id="0e0a8031-4424-47d5-868c-dff466100424" />
+			</on-error-continue>
+		</error-handler>
+	</flow>
+	</mule>
